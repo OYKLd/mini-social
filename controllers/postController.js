@@ -1,4 +1,5 @@
 const Post = require("../models/post");
+const User = require("../models/User");
 
 exports.createPost = async (req, res) => {
 
@@ -83,5 +84,45 @@ exports.commentPost = async (req, res) => {
     res.status(500).json(error);
 
   }
+
+};
+
+exports.getFeed = async (req, res) => {
+
+ try {
+
+  const user = await User.findById(req.params.userId);
+
+  const posts = await Post.find({
+   author: { $in: user.following }
+  }).populate("author", "username");
+
+  res.json(posts);
+
+ } catch (error) {
+
+  res.status(500).json(error);
+
+ }
+
+};
+
+exports.recommendPosts = async (req, res) => {
+
+ try {
+
+  const user = await User.findById(req.params.userId);
+
+  const posts = await Post.find({
+   tags: { $in: user.interests }
+  }).limit(10);
+
+  res.json(posts);
+
+ } catch (error) {
+
+  res.status(500).json(error);
+
+ }
 
 };
