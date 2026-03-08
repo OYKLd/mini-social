@@ -5,9 +5,7 @@ const commentSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User"
   },
-
   content: String,
-
   createdAt: {
     type: Date,
     default: Date.now
@@ -18,16 +16,10 @@ const postSchema = new mongoose.Schema({
 
   author: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true
+    ref: "User"
   },
 
-  content: {
-    type: String,
-    required: true
-  },
-
-  image: String,
+  content: String,
 
   tags: [String],
 
